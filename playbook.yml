@@ -1,0 +1,24 @@
+- hosts: localhost
+  connection: local
+  vars:
+    vagrant_version: 2.2.10
+
+  tasks:
+    
+    -   name: Check the version of release
+        command: hostnamectl
+        register: os_check
+        ignore_errors: yes
+    
+    -   name: Install Role Vagrant
+        local_action: command ansible-galaxy install -f jdauphant.vagrant
+
+    -   name: Applying role Vagrant
+        command: mv ~/.ansible/roles/jdauphant.vagrant ~/.ansible/roles/pwslab.vagrant
+        ignore_errors: yes
+
+    -   name: Installing Vagrant
+        include_role:
+          name: pwslab.vagrant
+    
+    
